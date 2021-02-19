@@ -1,0 +1,263 @@
+<!doctype html>
+
+<html lang="en">
+  
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200&display=swap" rel="stylesheet">
+    <style>
+      .main {
+        background-image: linear-gradient(#0cd7fb,#135df5);
+        color:#fff;
+        font-family: 'Source Sans Pro', sans-serif;
+      }
+
+      .two {
+        background: #082e77;
+        color:#fff;
+        font-family: 'Source Sans Pro', sans-serif;
+      }
+
+      .btn {
+        background: #082e77;
+        color:#fff;
+        font-size:1.3rem;
+        font-weight:900;
+      }
+      .three {
+        background:#0cd7fb;
+        color:#000;
+        font-family: 'Source Sans Pro', sans-serif;
+      }
+      .four {
+        background: #fff;
+        color:#9b9b9b;
+        font-family: 'Source Sans Pro', sans-serif;
+      }
+
+      .footer {
+        background: #4a4b4d;
+        font-size:0.8rem;
+        color:#ccc;
+        font-family: 'Source Sans Pro', sans-serif;
+      }
+    </style>
+    <script>
+      function MascaraCPF(cpf){
+        if(mascaraInteiro(cpf)==false){
+                event.returnValue = false;
+        }       
+        return formataCampo(cpf, '000.000.000-00', event);
+      }
+
+      function ValidarCPF(Objcpf){
+            var cpf = Objcpf.value;
+            exp = /\.|\-/g
+            cpf = cpf.toString().replace( exp, "" ); 
+            var digitoDigitado = eval(cpf.charAt(9)+cpf.charAt(10));
+            var soma1=0, soma2=0;
+            var vlr =11;
+
+            for(i=0;i<9;i++){
+                    soma1+=eval(cpf.charAt(i)*(vlr-1));
+                    soma2+=eval(cpf.charAt(i)*vlr);
+                    vlr--;
+            }       
+            soma1 = (((soma1*10)%11)==10 ? 0:((soma1*10)%11));
+            soma2=(((soma2+(2*soma1))*10)%11);
+
+            var digitoGerado=(soma1*10)+soma2;
+            if(digitoGerado!=digitoDigitado)        
+                    alert('CPF Invalido!');         
+      }
+
+      function mascaraInteiro(){
+            if (event.keyCode < 48 || event.keyCode > 57){
+                    event.returnValue = false;
+                    return false;
+            }
+            return true;
+      }
+
+      function formataCampo(campo, Mascara, evento) { 
+            var boleanoMascara; 
+
+            var Digitato = evento.keyCode;
+            exp = /\-|\.|\/|\(|\)| /g
+            campoSoNumeros = campo.value.toString().replace( exp, "" ); 
+
+            var posicaoCampo = 0;    
+            var NovoValorCampo="";
+            var TamanhoMascara = campoSoNumeros.length;; 
+
+            if (Digitato != 8) { // backspace 
+                    for(i=0; i<= TamanhoMascara; i++) { 
+                            boleanoMascara  = ((Mascara.charAt(i) == "-") || (Mascara.charAt(i) == ".")
+                                                                    || (Mascara.charAt(i) == "/")) 
+                            boleanoMascara  = boleanoMascara || ((Mascara.charAt(i) == "(") 
+                                                                    || (Mascara.charAt(i) == ")") || (Mascara.charAt(i) == " ")) 
+                            if (boleanoMascara) { 
+                                    NovoValorCampo += Mascara.charAt(i); 
+                                      TamanhoMascara++;
+                            }else { 
+                                    NovoValorCampo += campoSoNumeros.charAt(posicaoCampo); 
+                                    posicaoCampo++; 
+                              }              
+                      }      
+                    campo.value = NovoValorCampo;
+                      return true; 
+            }else { 
+                    return true; 
+            }
+      }
+
+      function sConsole(event) {
+      event.preventDefault();
+      var data = document.getElementById("cpf");
+      console.log(data.value);
+      form1.reset();
+      alert("CPF cadastrado com sucesso!");
+      }
+</script>
+
+
+    <title>Negociar Dívidas Online | Acordo Certo</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-dark bg-light">
+      <a class="navbar-brand" href="#">
+        <img src="https://raw.githubusercontent.com/luishenriquetp/luishenriquetp.github.io/492da1773af21ae662e09293e65a4357e7adbe37/Logos/logo-acordoCerto.svg" width="200" class="d-inline-block align-top" alt="" loading="lazy">
+      </a>
+    </nav>
+    <section>
+      <div class="container-fluid main  pt-3 pb-3">
+        <div class="container">
+          <div class="row align-items-center">
+            <div  class="col-sm-6 text-center mt-3">
+              <img src="https://raw.githubusercontent.com/luishenriquetp/luishenriquetp.github.io/master/Logos/logo-operacaoZeraDivida.png" class="img-fluid d-inline-block align-top" alt="" loading="lazy">
+            </div>
+            <div class="col-sm-6 text-center mt-3">
+              <h1><strong>Você sabe se o seu nome está 100% limpo?</strong></h1>
+              <h2 class="mt-2 mb-3">Consulte seu CPF e descubra.</h2>
+              <form name="form1" onsubmit="sConsole(event)">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="cpf" name="cpf" onBlur="ValidarCPF(form1.cpf);" 
+                onKeyPress="MascaraCPF(form1.cpf);" maxlength="14"></>
+                <button type="submit"  class="btn mt-3 align-items-center"><strong>Buscar minhas dívidas</strong></button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="container-fluid two pt-4 pb-3">
+        <div class="container">
+          <div class="row">
+            <div  class="col-sm-12 text-center">
+              <h2><strong>ATÉ 95% DE DESCONTO O ANO TODO</strong></h2>
+              <p>São 78 milhões de acordos com até 95% de desconto para você negociar e quitar suas dívidas. E o melhor: aqui, o “feirão” não tem data para acabar!</p>
+            </div>
+          </div>
+        </div>      
+      </div>
+    </section>
+    <section>
+      <div class="container-fluid three pt-5 pb-3">
+        <div class="container">
+          <div class="row">
+            <div  class="col-sm-12 text-center">
+              <h3><strong>CONHEÇA A ACORDO CERTO, A MAIOR EMPRESA DE RENEGOCIAÇÃO DE DÍVIDAS ONLINE DO BRASIL</strong></h3>
+              <p>A Acordo Certo ajuda você a encontrar, negociar e quitar seus débitos de uma maneira que cabe no seu bolso. Em poucos cliques, pague sua dívida e receba todo o suporte necessário para a conquista do seu bem-estar financeiro. Tudo de forma transparente, sem surpresas. </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="container-fluid four pt-4 pb-4">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12 text-center">
+              <h3><strong>CONHEÇA NOSSOS PARCEIROS</strong></h3>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-3 text-center mt-3">
+              <img src="https://raw.githubusercontent.com/luishenriquetp/luishenriquetp.github.io/492da1773af21ae662e09293e65a4357e7adbe37/Logos/logo-anhanguera.svg" width="85" class="d-inline-block align-top" alt="" loading="lazy">
+            </div>
+            <div class="col-sm-3 text-center mt-3">
+              <img src="https://raw.githubusercontent.com/luishenriquetp/luishenriquetp.github.io/492da1773af21ae662e09293e65a4357e7adbe37/Logos/logo-bancoPan.svg" width="85" class="d-inline-block align-top" alt="" loading="lazy">
+            </div>
+            <div class="col-sm-3 text-center mt-3">
+              <img src="https://raw.githubusercontent.com/luishenriquetp/luishenriquetp.github.io/492da1773af21ae662e09293e65a4357e7adbe37/Logos/logo-bmg.svg" width="85" class="d-inline-block align-top" alt="" loading="lazy">
+            </div>
+            <div class="col-sm-3 text-center mt-3">
+              <img src="https://raw.githubusercontent.com/luishenriquetp/luishenriquetp.github.io/492da1773af21ae662e09293e65a4357e7adbe37/Logos/logo-casasBahia.svg" width="85" class="d-inline-block align-top" alt="" loading="lazy">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-3 text-center mt-3">
+              <img src="https://raw.githubusercontent.com/luishenriquetp/luishenriquetp.github.io/492da1773af21ae662e09293e65a4357e7adbe37/Logos/logo-claro.svg" width="85" class="d-inline-block align-top" alt="" loading="lazy">
+            </div>
+            <div class="col-sm-3 text-center mt-3">
+              <img src="https://raw.githubusercontent.com/luishenriquetp/luishenriquetp.github.io/492da1773af21ae662e09293e65a4357e7adbe37/Logos/logo-itau.svg" width="85" class="d-inline-block align-top" alt="" loading="lazy">
+            </div>
+            <div class="col-sm-3 text-center mt-3">
+              <img src="https://raw.githubusercontent.com/luishenriquetp/luishenriquetp.github.io/492da1773af21ae662e09293e65a4357e7adbe37/Logos/logo-oi.svg" width="85" class="d-inline-block align-top" alt="" loading="lazy">
+            </div>
+            <div class="col-sm-3 text-center mt-3">
+              <img src="https://raw.githubusercontent.com/luishenriquetp/luishenriquetp.github.io/492da1773af21ae662e09293e65a4357e7adbe37/Logos/logo-pernambucanas.svg" width="85" class="d-inline-block align-top" alt="" loading="lazy">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-3 text-center mt-3">
+              <img src="https://raw.githubusercontent.com/luishenriquetp/luishenriquetp.github.io/492da1773af21ae662e09293e65a4357e7adbe37/Logos/logo-pitagoras.svg" width="85" class="d-inline-block align-top" alt="" loading="lazy">
+            </div>
+            <div class="col-sm-3 text-center mt-3">
+              <img src="https://raw.githubusercontent.com/luishenriquetp/luishenriquetp.github.io/492da1773af21ae662e09293e65a4357e7adbe37/Logos/logo-portoSeguro.svg" width="85" class="d-inline-block align-top" alt="" loading="lazy">
+            </div>
+            <div class="col-sm-3 text-center mt-3">
+              <img src="https://raw.githubusercontent.com/luishenriquetp/luishenriquetp.github.io/492da1773af21ae662e09293e65a4357e7adbe37/Logos/logo-renner.svg" width="85" class="d-inline-block align-top" alt="" loading="lazy">
+            </div>
+            <div class="col-sm-3 text-center mt-3">
+              <img src="https://raw.githubusercontent.com/luishenriquetp/luishenriquetp.github.io/492da1773af21ae662e09293e65a4357e7adbe37/Logos/logo-riachuelo.svg" width="85" class="d-inline-block align-top" alt="" loading="lazy">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-3 text-center mt-3">
+              <img src="https://raw.githubusercontent.com/luishenriquetp/luishenriquetp.github.io/492da1773af21ae662e09293e65a4357e7adbe37/Logos/logo-rico.svg" width="85" class="d-inline-block align-top" alt="" loading="lazy">
+            </div>
+            <div class="col-sm-3 text-center mt-3">
+              <img src="https://raw.githubusercontent.com/luishenriquetp/luishenriquetp.github.io/492da1773af21ae662e09293e65a4357e7adbe37/Logos/logo-santander.svg" width="85" class="d-inline-block align-top" alt="" loading="lazy">
+            </div>
+            <div class="col-sm-3 text-center mt-3">
+              <img src="https://raw.githubusercontent.com/luishenriquetp/luishenriquetp.github.io/492da1773af21ae662e09293e65a4357e7adbe37/Logos/logo-tricard.svg" width="85" class="d-inline-block align-top" alt="" loading="lazy">
+            </div>
+            <div class="col-sm-3 text-center mt-3">
+              <img src="https://raw.githubusercontent.com/luishenriquetp/luishenriquetp.github.io/492da1773af21ae662e09293e65a4357e7adbe37/Logos/logo-uze.svg" width="85" class="d-inline-block align-top" alt="" loading="lazy">
+            </div>
+          </div>
+      </div>
+      </div>
+    </section>
+    <footer>
+      <div class="container-fluid footer pt-4 pb-3">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12 text-center" >
+              <p>Rua Cardeal Arcoverde, 2365 - Pinheiros - São Paulo/SP<br>
+                © Copyright 2020 Acordo Certo, todos os direitos reservados - CNPJ 08.702.298/0001-93</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+  </body>
+</html>
